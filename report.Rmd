@@ -141,7 +141,22 @@ numeric ordering.
 
 ```{r code block to plot variance explained and cumulative variance explained, fig.cap = caption_4}
 #Create a ggplot2 with the plot described above, refer to the reference report
+variance_tibble <- variance_tibble %>%
+  mutate(principal_components = factor(
+    principal_components, 
+    levels = paste0("PC", 1:n())
+  ))
 
+ggplot(variance_tibble, aes(x = principal_components)) +
+  geom_bar(aes(y = variance_explained), stat = "identity", fill = "steelblue") +
+  geom_line(aes(y = cumulative, group = 1), color = "red", size = 1) +
+  geom_point(aes(y = cumulative), color = "red", size = 2) +
+  labs(
+    title = "Variance Explained by Principal Components",
+    x = "Principal Components",
+    y = "Variance Explained"
+  ) +
+  theme_minimal()
 ```
 
 
